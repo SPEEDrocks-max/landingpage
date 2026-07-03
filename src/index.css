@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  background: #000;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+/* Lenis smooth scroll requires this */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+canvas {
+  touch-action: none;
+}
+/* =========================================
+   TYPOGRAPHY SYSTEM
+========================================= */
+
+body {
+  font-family:
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+
+/* BIG EDITORIAL HEADINGS */
+
+.display-heading {
+  font-family:
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  font-weight: 400;
+
+  letter-spacing: -0.065em;
+
+  line-height: 0.88;
+}
+
+
+/* NORMAL BODY TEXT */
+
+.body-text {
+  font-family:
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  font-weight: 400;
+
+  letter-spacing: -0.02em;
+}
+/* =========================================
+   ATMOSPHERE BACKGROUND
+========================================= */
+
+.atmosphere-grid {
+  opacity: 0.13;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.09) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.09) 1px,
+      transparent 1px
+    );
+
+  background-size: 110px 110px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 82%,
+      transparent 100%
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 82%,
+      transparent 100%
+    );
+}
+
+
+/* GPU COMPOSITING */
+
+.atmosphere-amber,
+.atmosphere-red,
+.atmosphere-purple,
+.atmosphere-grid {
+  will-change: transform;
+  transform: translateZ(0);
+}
+@media (pointer: fine) {
+  body,
+  button,
+  a,
+  [data-cursor="magnetic"] {
+    cursor: none !important;
+  }
+}
