@@ -10,14 +10,13 @@ import {
 import { useStore } from '../../store/useStore'
 
 
-const PARTICLE_COUNT = 2400
+const DESKTOP_PARTICLE_COUNT = 2400
+const MOBILE_PARTICLE_COUNT = 1200
 
 
 /*
 ========================================
-
 TORUS POINTS
-
 ========================================
 */
 
@@ -33,31 +32,39 @@ function generateTorusPoints(count) {
 
 
   for (let i = 0; i < count; i++) {
+
     const t =
       (i / count) *
       Math.PI *
       2 *
       q
 
+
     const tubeAngle =
       Math.random() *
       Math.PI *
       2
 
+
     const r =
       radius +
-      Math.cos((q / p) * t) *
-        0.6
+      Math.cos(
+        (q / p) * t
+      ) * 0.6
+
 
     const x =
       r * Math.cos(t)
 
+
     const y =
       r * Math.sin(t)
 
+
     const z =
-      Math.sin((q / p) * t) *
-      0.6
+      Math.sin(
+        (q / p) * t
+      ) * 0.6
 
 
     const nx =
@@ -65,10 +72,12 @@ function generateTorusPoints(count) {
       Math.cos(tubeAngle) *
       tubeRadius
 
+
     const ny =
       Math.sin(t) *
       Math.cos(tubeAngle) *
       tubeRadius
+
 
     const nz =
       Math.sin(tubeAngle) *
@@ -78,12 +87,15 @@ function generateTorusPoints(count) {
     positions[i * 3] =
       x + nx
 
+
     positions[i * 3 + 1] =
       y + ny
+
 
     positions[i * 3 + 2] =
       z + nz
   }
+
 
   return positions
 }
@@ -91,32 +103,35 @@ function generateTorusPoints(count) {
 
 /*
 ========================================
-
 EXPLOSION CLOUD TARGET
-
 ========================================
 */
 
 function generateExplosionPoints(count) {
+
   const positions =
     new Float32Array(count * 3)
 
 
   for (let i = 0; i < count; i++) {
+
     const theta =
       Math.random() *
       Math.PI *
       2
+
 
     const phi =
       Math.acos(
         2 * Math.random() - 1
       )
 
+
     const radius =
       1.8 +
-      Math.sqrt(Math.random()) *
-        3.2
+      Math.sqrt(
+        Math.random()
+      ) * 3.2
 
 
     const x =
@@ -125,11 +140,13 @@ function generateExplosionPoints(count) {
       Math.cos(theta) *
       1.25
 
+
     const y =
       radius *
       Math.sin(phi) *
       Math.sin(theta) *
       0.65
+
 
     const z =
       radius *
@@ -151,34 +168,33 @@ function generateExplosionPoints(count) {
 
 /*
 ========================================
-
 WAVEFORM TARGET
-
 ========================================
 */
 
 function generateWavePoints(count) {
+
   const positions =
     new Float32Array(count * 3)
 
+
   const waveU =
     new Float32Array(count)
+
 
   const width = 8
 
 
   for (let i = 0; i < count; i++) {
+
     const u =
       i / (count - 1)
+
 
     const x =
       (u - 0.5) *
       width
 
-
-    /*
-      Small idle wave.
-    */
 
     const y =
       Math.sin(
@@ -187,10 +203,6 @@ function generateWavePoints(count) {
         8
       ) * 0.18
 
-
-    /*
-      Thickness in depth.
-    */
 
     const z =
       (Math.random() - 0.5) *
@@ -217,22 +229,34 @@ function generateWavePoints(count) {
 
 /*
 ========================================
-
 PARTICLE FIELD
-
 ========================================
 */
 
-export default function ParticleField({isMobile,}) {
+export default function ParticleField({
+  isMobile,
+}) {
+
   const groupRef = useRef()
+
   const materialRef = useRef()
 
 
   /*
   ========================================
+  ADAPTIVE PARTICLE COUNT
+  ========================================
+  */
 
+  const particleCount =
+    isMobile
+      ? MOBILE_PARTICLE_COUNT
+      : DESKTOP_PARTICLE_COUNT
+
+
+  /*
+  ========================================
   GEOMETRY + AUDIO TEXTURE
-
   ========================================
   */
 
@@ -240,15 +264,17 @@ export default function ParticleField({isMobile,}) {
     geometry,
     audioTexture,
   } = useMemo(() => {
+
+
     const torusPositions =
       generateTorusPoints(
-        PARTICLE_COUNT
+        particleCount
       )
 
 
     const explosionPositions =
       generateExplosionPoints(
-        PARTICLE_COUNT
+        particleCount
       )
 
 
@@ -257,23 +283,25 @@ export default function ParticleField({isMobile,}) {
       waveU,
     } =
       generateWavePoints(
-        PARTICLE_COUNT
+        particleCount
       )
 
 
     const random =
       new Float32Array(
-        PARTICLE_COUNT
+        particleCount
       )
 
 
     for (
       let i = 0;
-      i < PARTICLE_COUNT;
+      i < particleCount;
       i++
     ) {
+
       random[i] =
         Math.random()
+
     }
 
 
@@ -336,10 +364,13 @@ export default function ParticleField({isMobile,}) {
 
 
     /*
-      AUDIO TEXTURE
+    ========================================
+    AUDIO TEXTURE
+    ========================================
     */
 
     const textureSize = 128
+
 
     const textureData =
       new Uint8Array(
@@ -347,18 +378,16 @@ export default function ParticleField({isMobile,}) {
       )
 
 
-    /*
-      Initialise alpha channel.
-    */
-
     for (
       let i = 0;
       i < textureSize;
       i++
     ) {
+
       textureData[
         i * 4 + 3
       ] = 255
+
     }
 
 
@@ -379,36 +408,51 @@ export default function ParticleField({isMobile,}) {
       geometry,
       audioTexture,
     }
-  }, [])
+
+
+  }, [particleCount])
 
 
   /*
   ========================================
+  CLEANUP GPU RESOURCES
+  ========================================
+  */
 
+  /*
+  Geometry is regenerated only if the
+  device tier changes.
+  */
+
+
+  /*
+  ========================================
   STABLE UNIFORMS
-
-  Created once.
-
   ========================================
   */
 
   const uniforms = useMemo(
     () => ({
+
       uTime: {
         value: 0,
       },
+
 
       uMorph: {
         value: 0,
       },
 
+
       uAudioMix: {
         value: 0,
       },
 
+
       uAudioTexture: {
         value: audioTexture,
       },
+
 
       uPointer: {
         value:
@@ -418,17 +462,21 @@ export default function ParticleField({isMobile,}) {
           ),
       },
 
+
       uBeat: {
         value: 0,
       },
+
 
       uPixelRatio: {
         value: 1,
       },
 
+
       uSize: {
         value: 42,
       },
+
     }),
 
     [audioTexture]
@@ -437,22 +485,14 @@ export default function ParticleField({isMobile,}) {
 
   /*
   ========================================
-
   FRAME LOOP
-
   ========================================
   */
 
   useFrame((state) => {
+
     if (!materialRef.current) return
 
-
-    /*
-      READ CURRENT STORE STATE
-
-      No React subscription.
-      No rerender every scroll frame.
-    */
 
     const store =
       useStore.getState()
@@ -461,14 +501,13 @@ export default function ParticleField({isMobile,}) {
     const scrollProgress =
       store.scrollProgress
 
+
     const audioMix =
       store.audioMix
 
+
     const audioEngine =
       store.audioEngine
-
-    const pointer =
-      store.pointer
 
 
     const time =
@@ -477,13 +516,12 @@ export default function ParticleField({isMobile,}) {
 
     /*
     ========================================
-
     GROUP MOTION
-
     ========================================
     */
 
     if (groupRef.current) {
+
       const torusInfluence =
         1 - scrollProgress
 
@@ -508,14 +546,13 @@ export default function ParticleField({isMobile,}) {
         ) *
         0.025 *
         torusInfluence
+
     }
 
 
     /*
     ========================================
-
     UPDATE UNIFORMS
-
     ========================================
     */
 
@@ -526,44 +563,103 @@ export default function ParticleField({isMobile,}) {
     shaderUniforms.uTime.value =
       time
 
-const TORUS_HOLD = 0.1
 
-const compressedProgress =
-  scrollProgress < TORUS_HOLD
-    ? 0
-    : Math.min(
-        ((scrollProgress - TORUS_HOLD) /
-          (1 - TORUS_HOLD)) * 1.2,
-        1
-      )
+    /*
+    ========================================
+    PRESERVE TORUS HOLD TIMING
+    ========================================
+    */
 
-shaderUniforms.uMorph.value =
-  compressedProgress
+    const TORUS_HOLD = 0.1
+
+
+    const compressedProgress =
+
+      scrollProgress < TORUS_HOLD
+
+        ? 0
+
+        : Math.min(
+
+            (
+              (
+                scrollProgress -
+                TORUS_HOLD
+              ) /
+              (
+                1 -
+                TORUS_HOLD
+              )
+            ) * 1.2,
+
+            1
+
+          )
+
+
+    shaderUniforms.uMorph.value =
+      compressedProgress
+
 
     shaderUniforms.uAudioMix.value =
       audioMix
 
 
-    shaderUniforms.uPointer.value.set(
-      pointer.x,
-      pointer.y
-    )
+    /*
+    ========================================
+    POINTER INTERACTION
+    ========================================
+
+    Mobile:
+    no pointer store read
+    no Vector2 update
+
+    Desktop:
+    normal behaviour
+    */
+
+    if (!isMobile) {
+
+      const pointer =
+        store.pointer
 
 
-    shaderUniforms.uPixelRatio.value =
-  isMobile
-    ? 1
-    : Math.min(
-        window.devicePixelRatio,
-        1.5
+      shaderUniforms.uPointer.value.set(
+        pointer.x,
+        pointer.y
       )
+
+    } else {
+
+      shaderUniforms.uPointer.value.set(
+        0,
+        0
+      )
+
+    }
 
 
     /*
     ========================================
+    PIXEL RATIO
+    ========================================
+    */
 
+    shaderUniforms.uPixelRatio.value =
+
+      isMobile
+
+        ? 1
+
+        : Math.min(
+            window.devicePixelRatio,
+            1.5
+          )
+
+
+    /*
+    ========================================
     AUDIO ANALYSIS
-
     ========================================
     */
 
@@ -571,6 +667,7 @@ shaderUniforms.uMorph.value =
 
 
     if (audioEngine) {
+
       const frequencyData =
         audioEngine.getFrequencyData()
 
@@ -594,12 +691,15 @@ shaderUniforms.uMorph.value =
         i < frequencyData.length;
         i++
       ) {
+
         const value =
           frequencyData[i]
 
 
         if (i < bassBins) {
+
           bassTotal += value
+
         }
 
 
@@ -621,6 +721,7 @@ shaderUniforms.uMorph.value =
         textureData[
           i * 4 + 3
         ] = 255
+
       }
 
 
@@ -629,31 +730,38 @@ shaderUniforms.uMorph.value =
 
 
       beat =
+
         bassBins > 0
+
           ? bassTotal /
             bassBins /
             255
+
           : 0
+
     }
 
 
     shaderUniforms.uBeat.value =
       beat
+
   })
 
 
   /*
   ========================================
-
   RENDER
-
   ========================================
   */
 
   return (
+
     <group ref={groupRef}>
+
       <points geometry={geometry}>
+
         <shaderMaterial
+
           ref={materialRef}
 
           vertexShader={
@@ -677,13 +785,18 @@ shaderUniforms.uMorph.value =
           blending={
             THREE.AdditiveBlending
           }
+
         />
+
       </points>
+
     </group>
+
   )
 }
 
 
 export {
-  PARTICLE_COUNT,
+  DESKTOP_PARTICLE_COUNT,
+  MOBILE_PARTICLE_COUNT,
 }

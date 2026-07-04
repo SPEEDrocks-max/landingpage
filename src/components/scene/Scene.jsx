@@ -25,6 +25,7 @@ export default function Scene() {
     (state) => state.scrollProgress
   )
 
+
   const glassProgress = useStore(
     (state) => state.glassProgress
   )
@@ -49,9 +50,11 @@ export default function Scene() {
 
 
     function updateDevice() {
+
       setIsMobile(
         mediaQuery.matches
       )
+
     }
 
 
@@ -94,24 +97,17 @@ export default function Scene() {
 
   /*
   ========================================
-  SCENE EXIT DURING GLASS TAKEOVER
+  SCENE EXIT
   ========================================
-
-  0.00 - 0.55
-  fully visible
-
-  0.55 - 0.85
-  fade behind glass
-
-  0.85+
-  invisible
   */
 
   const sceneExit =
     Math.min(
       Math.max(
-        (glassProgress - 0.55) /
-          0.3,
+        (
+          glassProgress -
+          0.55
+        ) / 0.3,
         0
       ),
       1
@@ -133,12 +129,6 @@ export default function Scene() {
   ========================================
   SCENE ACTIVITY
   ========================================
-
-  Once takeover is complete,
-  stop continuous WebGL rendering.
-
-  Scrolling back automatically
-  switches frameloop to always again.
   */
 
   const sceneActive =
@@ -146,6 +136,7 @@ export default function Scene() {
 
 
   return (
+
     <Canvas
 
       camera={{
@@ -156,7 +147,10 @@ export default function Scene() {
 
       /*
       ========================================
-      ADAPTIVE DPR
+      DPR
+
+      MOBILE  = 1
+      DESKTOP = 1 → 1.5
       ========================================
       */
 
@@ -182,17 +176,21 @@ export default function Scene() {
 
       /*
       ========================================
-      WEBGL SETTINGS
+      WEBGL
       ========================================
       */
 
       gl={{
-        antialias: !isMobile,
 
-        alpha: true,
+        antialias:
+          !isMobile,
+
+        alpha:
+          true,
 
         powerPreference:
           'high-performance',
+
       }}
 
 
@@ -203,24 +201,37 @@ export default function Scene() {
       */
 
       style={{
-        position: 'fixed',
 
-        top: 0,
-        left: 0,
+        position:
+          'fixed',
 
-        width: '100vw',
-        height: '100vh',
+        top:
+          0,
 
-        zIndex: 0,
+        left:
+          0,
+
+        width:
+          '100vw',
+
+        height:
+          '100vh',
+
+        zIndex:
+          0,
 
         opacity,
 
-        pointerEvents: 'none',
+        pointerEvents:
+          'none',
 
         transition:
           'opacity 180ms linear',
+
       }}
+
     >
+
 
       {/* PARTICLE WORLD */}
 
@@ -236,7 +247,10 @@ export default function Scene() {
         <EffectComposer>
 
           <Bloom
-            intensity={0.98}
+
+            intensity={
+              0.98
+            }
 
             luminanceThreshold={
               0.08
@@ -247,12 +261,15 @@ export default function Scene() {
             }
 
             mipmapBlur
+
           />
 
         </EffectComposer>
 
       )}
 
+
     </Canvas>
+
   )
 }
