@@ -116,7 +116,9 @@ export default function StudioLanding() {
     px-6
 
     pt-16
-    pb-20
+    pb-28
+    md:pb-24
+    lg:pb-16
 
     text-center
 
@@ -175,7 +177,7 @@ export default function StudioLanding() {
 
         <p
           className="
-            mt-9
+            mt-8
             max-w-2xl
             text-base
             leading-7
