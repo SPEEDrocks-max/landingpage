@@ -1,14 +1,26 @@
-import { Canvas } from '@react-three/fiber'
+import {
+  useEffect,
+  useState,
+} from 'react'
+
+import {
+  Canvas,
+} from '@react-three/fiber'
+
 import {
   EffectComposer,
   Bloom,
 } from '@react-three/postprocessing'
 
 import ParticleField from './ParticleField'
-import { useStore } from '../../store/useStore'
+
+import {
+  useStore,
+} from '../../store/useStore'
 
 
 export default function Scene() {
+
   const scrollProgress = useStore(
     (state) => state.scrollProgress
   )
@@ -20,14 +32,64 @@ export default function Scene() {
 
   /*
   ========================================
+  DEVICE DETECTION
+  ========================================
+  */
+
+  const [isMobile, setIsMobile] =
+    useState(false)
+
+
+  useEffect(() => {
+
+    const mediaQuery =
+      window.matchMedia(
+        '(max-width: 767px)'
+      )
+
+
+    function updateDevice() {
+      setIsMobile(
+        mediaQuery.matches
+      )
+    }
+
+
+    updateDevice()
+
+
+    mediaQuery.addEventListener(
+      'change',
+      updateDevice
+    )
+
+
+    return () => {
+
+      mediaQuery.removeEventListener(
+        'change',
+        updateDevice
+      )
+
+    }
+
+  }, [])
+
+
+  /*
+  ========================================
   SCENE ENTRANCE
   ========================================
   */
 
-  const entranceOpacity = Math.min(
-    Math.max(scrollProgress * 7, 0),
-    1
-  )
+  const entranceOpacity =
+    Math.min(
+      Math.max(
+        scrollProgress * 7,
+        0
+      ),
+      1
+    )
 
 
   /*
@@ -36,22 +98,24 @@ export default function Scene() {
   ========================================
 
   0.00 - 0.55
-  Scene remains fully visible.
+  fully visible
 
   0.55 - 0.85
-  Scene fades behind the glass.
+  fade behind glass
 
   0.85+
-  Scene completely gone.
+  invisible
   */
 
-  const sceneExit = Math.min(
-    Math.max(
-      (glassProgress - 0.55) / 0.3,
-      0
-    ),
-    1
-  )
+  const sceneExit =
+    Math.min(
+      Math.max(
+        (glassProgress - 0.55) /
+          0.3,
+        0
+      ),
+      1
+    )
 
 
   /*
@@ -61,22 +125,82 @@ export default function Scene() {
   */
 
   const opacity =
-    entranceOpacity * (1 - sceneExit)
+    entranceOpacity *
+    (1 - sceneExit)
+
+
+  /*
+  ========================================
+  SCENE ACTIVITY
+  ========================================
+
+  Once takeover is complete,
+  stop continuous WebGL rendering.
+
+  Scrolling back automatically
+  switches frameloop to always again.
+  */
+
+  const sceneActive =
+    glassProgress < 0.9
 
 
   return (
     <Canvas
+
       camera={{
         position: [0, 0, 8],
         fov: 45,
       }}
 
-      dpr={[1, 2]}
+
+      /*
+      ========================================
+      ADAPTIVE DPR
+      ========================================
+      */
+
+      dpr={
+        isMobile
+          ? 1
+          : [1, 1.5]
+      }
+
+
+      /*
+      ========================================
+      RENDER LOOP
+      ========================================
+      */
+
+      frameloop={
+        sceneActive
+          ? 'always'
+          : 'never'
+      }
+
+
+      /*
+      ========================================
+      WEBGL SETTINGS
+      ========================================
+      */
 
       gl={{
-        antialias: true,
+        antialias: !isMobile,
+
         alpha: true,
+
+        powerPreference:
+          'high-performance',
       }}
+
+
+      /*
+      ========================================
+      FIXED CANVAS
+      ========================================
+      */
 
       style={{
         position: 'fixed',
@@ -91,22 +215,43 @@ export default function Scene() {
 
         opacity,
 
+        pointerEvents: 'none',
+
         transition:
           'opacity 180ms linear',
       }}
     >
 
-      <ParticleField />
+      {/* PARTICLE WORLD */}
+
+      <ParticleField
+        isMobile={isMobile}
+      />
 
 
-      <EffectComposer>
-        <Bloom
-          intensity={0.98}
-          luminanceThreshold={0.08}
-          luminanceSmoothing={0.85}
-          mipmapBlur
-        />
-      </EffectComposer>
+      {/* DESKTOP BLOOM ONLY */}
+
+      {!isMobile && (
+
+        <EffectComposer>
+
+          <Bloom
+            intensity={0.98}
+
+            luminanceThreshold={
+              0.08
+            }
+
+            luminanceSmoothing={
+              0.85
+            }
+
+            mipmapBlur
+          />
+
+        </EffectComposer>
+
+      )}
 
     </Canvas>
   )

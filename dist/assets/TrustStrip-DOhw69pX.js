@@ -1,0 +1,70 @@
+import{a as e,i as t,n,o as r,r as i}from"./index-CY6eq0l1.js";var a=r(e(),1),o=t();i.registerPlugin(n);var s=[`SONICLABS`,`WAVEFORM`,`AUDIO.AI`,`SYNTHETICA`,`echo_`];function c(){let e=(0,a.useRef)(null),t=(0,a.useRef)(null);return(0,a.useEffect)(()=>{let n=i.context(()=>{i.fromTo(t.current,{opacity:0,y:30,filter:`blur(10px)`},{opacity:1,y:0,filter:`blur(0px)`,duration:1.2,ease:`power3.out`,scrollTrigger:{trigger:e.current,start:`top 85%`}})},e);return()=>n.revert()},[]),(0,o.jsxs)(`section`,{ref:e,className:`\r
+        relative\r
+        z-40\r
+\r
+        overflow-hidden\r
+\r
+        border-y\r
+        border-white/10\r
+\r
+        bg-white/[0.035]\r
+\r
+        py-14\r
+\r
+        text-white\r
+\r
+        backdrop-blur-xl\r
+      `,children:[(0,o.jsx)(`div`,{className:`\r
+          pointer-events-none\r
+\r
+          absolute\r
+          inset-x-0\r
+          bottom-[-180px]\r
+\r
+          h-[420px]\r
+\r
+          bg-[radial-gradient(ellipse_at_center,rgba(170,55,25,0.20),rgba(90,20,70,0.10)_40%,transparent_72%)]\r
+\r
+          blur-[60px]\r
+        `}),(0,o.jsxs)(`div`,{ref:t,className:`\r
+          relative\r
+          z-10\r
+        `,children:[(0,o.jsx)(`p`,{className:`\r
+            text-center\r
+\r
+            font-mono\r
+            text-[10px]\r
+\r
+            uppercase\r
+\r
+            tracking-[0.32em]\r
+\r
+            text-white/35\r
+          `,children:`Trusted by avant-garde creators at`}),(0,o.jsx)(`div`,{className:`\r
+            mx-auto\r
+            mt-6\r
+\r
+            flex\r
+            max-w-5xl\r
+            flex-wrap\r
+\r
+            items-center\r
+            justify-center\r
+\r
+            gap-x-16\r
+            gap-y-6\r
+\r
+            px-6\r
+          `,children:s.map(e=>(0,o.jsx)(`span`,{className:`\r
+                text-xl\r
+                font-semibold\r
+\r
+                tracking-[-0.04em]\r
+\r
+                text-white/35\r
+\r
+                transition-all\r
+                duration-300\r
+\r
+                hover:text-white\r
+              `,children:e},e))})]})]})}export{c as default};

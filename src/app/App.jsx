@@ -1,18 +1,50 @@
-import { useEffect, useRef } from 'react'
+import {
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+
 import Lenis from 'lenis'
-import CreatePage from '../pages/CreatePage'
+
 import Scene from '../components/scene/Scene'
 import Nav from '../components/layout/Nav'
 import Hero from '../components/landing/Hero'
 import GlassTransition from '../components/landing/GlassTransition'
-import StudioLanding from '../pages/StudioLanding'
-import TrustStrip from '../components/studio/TrustStrip'
-import { useStore } from '../store/useStore'
-import FinalSection from '../pages/FinalSection'
+import DeferredSection from '../components/performance/DeferredSection'
 import Atmosphere from '../components/background/Atmosphere'
 import MagneticCursor from '../components/interaction/MagneticCursor'
 
+import { useStore } from '../store/useStore'
+
+
+/*
+========================================
+LAZY LOADED LOWER SECTIONS
+========================================
+*/
+
+const TrustStrip = lazy(
+  () =>
+    import(
+      '../components/studio/TrustStrip'
+    )
+)
+
+const CreatePage = lazy(
+  () =>
+    import('../pages/CreatePage')
+)
+
+const FinalSection = lazy(
+  () =>
+    import('../pages/FinalSection')
+)
+
+
 export default function App() {
+
   const setScrollProgress = useStore(
     (state) => state.setScrollProgress
   )
@@ -24,6 +56,68 @@ export default function App() {
   const rafRef = useRef(null)
 
 
+  /*
+  ========================================
+  POINTER TYPE DETECTION
+  ========================================
+
+  Desktop / mouse:
+  Magnetic cursor enabled
+
+  Mobile / touch:
+  Magnetic cursor not mounted
+  */
+
+  const [
+    hasFinePointer,
+    setHasFinePointer,
+  ] = useState(false)
+
+
+  useEffect(() => {
+
+    const pointerQuery =
+      window.matchMedia(
+        '(pointer: fine)'
+      )
+
+
+    function updatePointerType() {
+
+      setHasFinePointer(
+        pointerQuery.matches
+      )
+
+    }
+
+
+    updatePointerType()
+
+
+    pointerQuery.addEventListener(
+      'change',
+      updatePointerType
+    )
+
+
+    return () => {
+
+      pointerQuery.removeEventListener(
+        'change',
+        updatePointerType
+      )
+
+    }
+
+  }, [])
+
+
+  /*
+  ========================================
+  LENIS + POINTER TRACKING
+  ========================================
+  */
+
   useEffect(() => {
 
     /*
@@ -33,10 +127,21 @@ export default function App() {
     */
 
     const lenis = new Lenis({
+
       duration: 1.35,
+
       smoothWheel: true,
+
+      /*
+      Native touch scrolling.
+      */
+
+      smoothTouch: false,
+
       wheelMultiplier: 0.85,
-      touchMultiplier: 1.1,
+
+      touchMultiplier: 1,
+
     })
 
 
@@ -44,34 +149,35 @@ export default function App() {
     ========================================
     LANDING SCROLL PROGRESS
     ========================================
-
-    IMPORTANT:
-
-    We do NOT calculate progress from the
-    complete website height anymore.
-
-    Otherwise adding GlassTransition would
-    change the timing of the torus animation.
-
-    The first 320vh belongs to the
-    landing experience.
-    ========================================
     */
 
     function updateScrollProgress() {
+
       const landingDistance =
         window.innerHeight * 2.2
 
+
       const progress =
         Math.min(
+
           Math.max(
-            window.scrollY / landingDistance,
+
+            window.scrollY /
+              landingDistance,
+
             0
+
           ),
+
           1
+
         )
 
-      setScrollProgress(progress)
+
+      setScrollProgress(
+        progress
+      )
+
     }
 
 
@@ -82,17 +188,25 @@ export default function App() {
     */
 
     function raf(time) {
+
       lenis.raf(time)
+
 
       updateScrollProgress()
 
+
       rafRef.current =
-        requestAnimationFrame(raf)
+        requestAnimationFrame(
+          raf
+        )
+
     }
 
 
     rafRef.current =
-      requestAnimationFrame(raf)
+      requestAnimationFrame(
+        raf
+      )
 
 
     /*
@@ -102,23 +216,48 @@ export default function App() {
     */
 
     function handlePointerMove(event) {
+
       const x =
-        event.clientX / window.innerWidth
+        event.clientX /
+        window.innerWidth
+
 
       const y =
-        event.clientY / window.innerHeight
+        event.clientY /
+        window.innerHeight
+
 
       setPointer({
+
         x: x * 2 - 1,
+
         y: -(y * 2 - 1),
+
       })
+
     }
 
 
-    window.addEventListener(
-      'pointermove',
-      handlePointerMove
-    )
+    /*
+    Only attach pointer tracking
+    on actual mouse / fine pointer devices.
+    */
+
+    if (hasFinePointer) {
+
+      window.addEventListener(
+
+        'pointermove',
+
+        handlePointerMove,
+
+        {
+          passive: true,
+        }
+
+      )
+
+    }
 
 
     updateScrollProgress()
@@ -132,40 +271,80 @@ export default function App() {
 
     return () => {
 
-      window.removeEventListener(
-        'pointermove',
-        handlePointerMove
-      )
+      if (hasFinePointer) {
+
+        window.removeEventListener(
+
+          'pointermove',
+
+          handlePointerMove
+
+        )
+
+      }
+
 
       if (rafRef.current) {
+
         cancelAnimationFrame(
           rafRef.current
         )
+
       }
 
+
       lenis.destroy()
+
     }
 
   }, [
+
     setPointer,
+
     setScrollProgress,
+
+    hasFinePointer,
+
   ])
 
 
+  /*
+  ========================================
+  PAGE
+  ========================================
+  */
+
   return (
+
     <main
       className="
-        
-    relative
-    min-h-screen
-    overflow-x-hidden
-    bg-black
-    text-white
-  "
-      
+        relative
+        min-h-screen
+        overflow-x-hidden
+        bg-black
+        text-white
+        touch-pan-y
+      "
     >
-      <MagneticCursor />
+
+
+      {/* ===================================
+          MAGNETIC CURSOR
+
+          Desktop only.
+          Component does not mount on mobile.
+      =================================== */}
+
+      {hasFinePointer && (
+        <MagneticCursor />
+      )}
+
+
+      {/* GLOBAL ATMOSPHERE */}
+
       <Atmosphere />
+
+
       {/* FIXED 3D WORLD */}
 
       <Scene />
@@ -181,49 +360,60 @@ export default function App() {
       <Hero />
 
 
-      {/*
-        LANDING EXPERIENCE RUNWAY
+      {/* ===================================
+          LANDING EXPERIENCE RUNWAY
+      =================================== */}
 
-        torus
-          ↓
-        explosion
-          ↓
-        cloud
-          ↓
-        audio ribbon
-      */}
-
-      {/* LANDING EXPERIENCE RUNWAY */}
-
-<section
-  className="
-    relative
-    z-0
-    h-[320vh]
-    pointer-events-none
-  "
-  aria-hidden="true"
-/>
+      <section
+        className="
+          relative
+          z-0
+          h-[320vh]
+          pointer-events-none
+        "
+        aria-hidden="true"
+      />
 
 
-{/* GLASS → STUDIO LANDING TRANSITION */}
+      {/* ===================================
+          GLASS → STUDIO LANDING
+      =================================== */}
 
-<GlassTransition />
-
-
-{/* TRUST STRIP */}
-
-<TrustStrip />
+      <GlassTransition />
 
 
-{/* MAIN CONTENT PAGE */}
+      {/* ===================================
+          LOWER CONTENT
+      =================================== */}
 
-<CreatePage />
+      <Suspense fallback={null}>
+
+        <TrustStrip />
 
 
-{/* FINAL CTA + FOOTER — ALWAYS LAST */}
+        <DeferredSection
+          minHeight="180vh"
+          rootMargin="1200px 0px"
+        >
 
-<FinalSection />
+          <CreatePage />
+
+        </DeferredSection>
+
+
+        <DeferredSection
+          minHeight="100vh"
+          rootMargin="1200px 0px"
+        >
+
+          <FinalSection />
+
+        </DeferredSection>
+
+      </Suspense>
+
+
     </main>
+
   )
 }

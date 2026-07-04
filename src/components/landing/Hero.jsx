@@ -248,7 +248,7 @@ const heroVisibility =
       <audio
         ref={audioRef}
         src={audioSrc}
-        preload="auto"
+        preload="none"
         playsInline
         onEnded={() => {
           setIsPlaying(false)

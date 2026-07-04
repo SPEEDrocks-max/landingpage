@@ -1,11 +1,4 @@
-/**
- * Thin wrapper around Web Audio's AnalyserNode.
- * No external library needed — this IS the "waveform" data source.
- *
- * Usage:
- *   const engine = createAudioEngine(audioElement)
- *   engine.getFrequencyData() -> Uint8Array, 0-255 per frequency bin
- */
+
 export function createAudioEngine(audioEl) {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext
   const ctx = new AudioContextClass()

@@ -1,0 +1,357 @@
+import{i as e,t}from"./index-CY6eq0l1.js";var n=e();function r(){return(0,n.jsxs)(`div`,{className:`\r
+       relative\r
+    z-40\r
+    w-full\r
+    overflow-hidden\r
+    bg-transparent\r
+    text-white\r
+      `,children:[(0,n.jsx)(`section`,{className:`\r
+          relative\r
+          px-5\r
+          py-24\r
+          md:px-10\r
+          md:py-32\r
+          lg:px-16\r
+        `,children:(0,n.jsxs)(`div`,{className:`\r
+            relative\r
+            mx-auto\r
+            flex\r
+            min-h-[500px]\r
+            max-w-7xl\r
+            flex-col\r
+            items-center\r
+            justify-center\r
+            overflow-hidden\r
+\r
+            rounded-[28px]\r
+\r
+            border\r
+            border-white/10\r
+\r
+            bg-gradient-to-b\r
+            from-white/[0.055]\r
+            via-white/[0.018]\r
+            to-transparent\r
+\r
+            px-6\r
+            text-center\r
+          `,children:[(0,n.jsx)(`div`,{className:`\r
+              pointer-events-none\r
+              absolute\r
+              left-1/2\r
+              top-1/2\r
+\r
+              h-[400px]\r
+              w-[700px]\r
+\r
+              -translate-x-1/2\r
+              -translate-y-1/2\r
+\r
+              rounded-full\r
+\r
+              bg-white/[0.04]\r
+\r
+              blur-[120px]\r
+            `}),(0,n.jsx)(`div`,{className:`\r
+              pointer-events-none\r
+              absolute\r
+              left-[15%]\r
+              right-[15%]\r
+              top-0\r
+\r
+              h-px\r
+\r
+              bg-gradient-to-r\r
+              from-transparent\r
+              via-white/30\r
+              to-transparent\r
+            `}),(0,n.jsxs)(`div`,{className:`relative z-10`,children:[(0,n.jsx)(`p`,{className:`\r
+                mb-6\r
+\r
+                font-mono\r
+                text-[9px]\r
+                uppercase\r
+                tracking-[0.4em]\r
+\r
+                text-white/30\r
+              `,children:`Your next track starts here`}),(0,n.jsxs)(`h2`,{className:`\r
+                text-[clamp(3.2rem,6vw,6.2rem)]\r
+\r
+                font-semibold\r
+\r
+                leading-[0.9]\r
+\r
+                tracking-[-0.06em]\r
+              `,children:[` `,(0,n.jsx)(t,{children:`Ready to compose?`})]}),(0,n.jsx)(`p`,{className:`\r
+                mx-auto\r
+                mt-7\r
+\r
+                max-w-xl\r
+\r
+                text-base\r
+                leading-7\r
+\r
+                text-white/40\r
+\r
+                md:text-lg\r
+              `,children:`Authorize your creative session, customize consistent singers, and generate your tracks now.`}),(0,n.jsxs)(`button`,{className:`\r
+                group\r
+\r
+                mt-10\r
+\r
+                inline-flex\r
+                items-center\r
+                justify-center\r
+                gap-5\r
+\r
+                rounded-full\r
+\r
+                bg-white\r
+\r
+                px-8\r
+                py-4\r
+\r
+                text-sm\r
+                font-semibold\r
+\r
+                text-black\r
+\r
+                shadow-[0_0_50px_rgba(255,255,255,0.10)]\r
+\r
+                transition-all\r
+                duration-300\r
+\r
+                hover:scale-[1.03]\r
+\r
+                hover:shadow-[\r
+                  0_0_70px_rgba(255,255,255,0.16)\r
+                ]\r
+\r
+                active:scale-[0.98]\r
+              `,children:[`Access Workspace`,(0,n.jsx)(`span`,{className:`\r
+                  text-lg\r
+\r
+                  transition-transform\r
+                  duration-300\r
+\r
+                  group-hover:translate-x-1\r
+                `,children:`→`})]})]})]})}),(0,n.jsxs)(`footer`,{className:`\r
+          relative\r
+\r
+          border-t\r
+          border-white/[0.08]\r
+\r
+          bg-[#080808]\r
+\r
+          px-6\r
+          pb-8\r
+          pt-20\r
+\r
+          md:px-10\r
+\r
+          lg:px-16\r
+          lg:pt-24\r
+        `,children:[(0,n.jsx)(`div`,{className:`\r
+            pointer-events-none\r
+            absolute\r
+            left-0\r
+            top-0\r
+\r
+            h-[350px]\r
+            w-[500px]\r
+\r
+            bg-white/[0.015]\r
+\r
+            blur-[100px]\r
+          `}),(0,n.jsxs)(`div`,{className:`\r
+            relative\r
+            z-10\r
+\r
+            mx-auto\r
+            max-w-7xl\r
+          `,children:[(0,n.jsxs)(`div`,{className:`\r
+              grid\r
+\r
+              gap-16\r
+\r
+              md:grid-cols-[1.5fr_0.7fr_0.7fr]\r
+\r
+              lg:gap-24\r
+            `,children:[(0,n.jsxs)(`div`,{children:[(0,n.jsxs)(`div`,{className:`\r
+                  flex\r
+                  items-center\r
+                  gap-3\r
+                `,children:[(0,n.jsx)(`div`,{className:`\r
+                    flex\r
+                    h-10\r
+                    w-10\r
+\r
+                    items-center\r
+                    justify-center\r
+\r
+                    rounded-xl\r
+\r
+                    bg-white\r
+\r
+                    text-lg\r
+                    text-black\r
+                  `,children:`♪`}),(0,n.jsx)(`span`,{className:`\r
+                    text-xl\r
+                    font-semibold\r
+\r
+                    tracking-[-0.03em]\r
+                  `,children:`MusicLabelAI`})]}),(0,n.jsx)(`p`,{className:`\r
+                  mt-7\r
+\r
+                  max-w-sm\r
+\r
+                  text-sm\r
+                  leading-6\r
+\r
+                  text-white/40\r
+                `,children:`The next generation of neural audio synthesis. Create consistent vocals and high-fidelity soundtracks in seconds.`}),(0,n.jsxs)(`div`,{className:`\r
+                  mt-6\r
+\r
+                  flex\r
+                  items-center\r
+                  gap-3\r
+                `,children:[(0,n.jsx)(i,{children:`◯`}),(0,n.jsx)(i,{children:`◎`}),(0,n.jsx)(i,{children:`⊙`})]})]}),(0,n.jsx)(a,{title:`Product`,links:[`Studio`,`Library`,`API Access`,`Pricing`]}),(0,n.jsx)(a,{title:`Legal`,links:[`Terms of Service`,`Privacy Policy`,`Cookie Policy`,`Licenses`]})]}),(0,n.jsxs)(`div`,{className:`\r
+              mt-16\r
+\r
+              flex\r
+              flex-col\r
+              gap-6\r
+\r
+              border-t\r
+              border-white/[0.08]\r
+\r
+              pt-7\r
+\r
+              md:flex-row\r
+              md:items-center\r
+              md:justify-between\r
+            `,children:[(0,n.jsx)(`p`,{className:`\r
+                font-mono\r
+\r
+                text-[10px]\r
+\r
+                leading-5\r
+\r
+                tracking-[0.08em]\r
+\r
+                text-white/35\r
+              `,children:`© 2026 MusicLabel AI. Powered by Neural ACE-Step DIT. All Rights Reserved.`}),(0,n.jsxs)(`div`,{className:`\r
+                flex\r
+                w-fit\r
+\r
+                items-center\r
+                gap-2\r
+\r
+                rounded-full\r
+\r
+                border\r
+                border-emerald-500/25\r
+\r
+                bg-emerald-500/[0.08]\r
+\r
+                px-4\r
+                py-2\r
+\r
+                font-mono\r
+\r
+                text-[9px]\r
+                uppercase\r
+\r
+                tracking-[0.14em]\r
+\r
+                text-emerald-400\r
+              `,children:[(0,n.jsx)(`span`,{className:`\r
+                  h-1.5\r
+                  w-1.5\r
+\r
+                  rounded-full\r
+\r
+                  bg-emerald-400\r
+\r
+                  shadow-[\r
+                    0_0_10px_rgba(52,211,153,0.8)\r
+                  ]\r
+                `}),`Systems Operational`]})]})]})]})]})}function i({children:e}){return(0,n.jsx)(`button`,{className:`\r
+        flex\r
+\r
+        h-11\r
+        w-11\r
+\r
+        items-center\r
+        justify-center\r
+\r
+        rounded-full\r
+\r
+        border\r
+        border-white/10\r
+\r
+        bg-white/[0.025]\r
+\r
+        text-sm\r
+        text-white/50\r
+\r
+        transition-all\r
+        duration-300\r
+\r
+        hover:scale-105\r
+\r
+        hover:border-white/20\r
+\r
+        hover:bg-white/[0.06]\r
+\r
+        hover:text-white\r
+\r
+        active:scale-95\r
+      `,children:e})}function a({title:e,links:t}){return(0,n.jsxs)(`div`,{children:[(0,n.jsx)(`h3`,{className:`\r
+          font-mono\r
+\r
+          text-[10px]\r
+          font-semibold\r
+\r
+          uppercase\r
+\r
+          tracking-[0.15em]\r
+\r
+          text-white/80\r
+        `,children:e}),(0,n.jsx)(`div`,{className:`\r
+          mt-7\r
+\r
+          flex\r
+          flex-col\r
+\r
+          gap-4\r
+        `,children:t.map(e=>(0,n.jsxs)(`button`,{className:`\r
+              group\r
+\r
+              flex\r
+              w-fit\r
+\r
+              items-center\r
+              gap-2\r
+\r
+              text-left\r
+              text-sm\r
+\r
+              text-white/40\r
+\r
+              transition-colors\r
+              duration-300\r
+\r
+              hover:text-white\r
+            `,children:[(0,n.jsx)(`span`,{children:e}),(0,n.jsx)(`span`,{className:`\r
+                -translate-x-1\r
+\r
+                text-white/0\r
+\r
+                transition-all\r
+                duration-300\r
+\r
+                group-hover:translate-x-0\r
+\r
+                group-hover:text-white/50\r
+              `,children:`↗`})]},e))})]})}export{r as default};

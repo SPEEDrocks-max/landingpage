@@ -10,7 +10,7 @@ import {
 import { useStore } from '../../store/useStore'
 
 
-const PARTICLE_COUNT = 8000
+const PARTICLE_COUNT = 2400
 
 
 /*
@@ -223,7 +223,7 @@ PARTICLE FIELD
 ========================================
 */
 
-export default function ParticleField() {
+export default function ParticleField({isMobile,}) {
   const groupRef = useRef()
   const materialRef = useRef()
 
@@ -551,9 +551,11 @@ shaderUniforms.uMorph.value =
 
 
     shaderUniforms.uPixelRatio.value =
-      Math.min(
+  isMobile
+    ? 1
+    : Math.min(
         window.devicePixelRatio,
-        2
+        1.5
       )
 
 
