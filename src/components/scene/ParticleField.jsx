@@ -397,6 +397,7 @@ export default function ParticleField({
 
   const uniforms = useMemo(
     () => ({
+      
       uTime: {
         value: 0,
       },
@@ -425,7 +426,9 @@ export default function ParticleField({
           ),
       },
 
-
+      uMobileWaveScale: {
+  value: isMobile ? 0.30 : 1.0,
+},
       uBeat: {
         value: 0,
       },

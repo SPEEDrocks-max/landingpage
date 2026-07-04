@@ -2,7 +2,7 @@ export const vertexShader = /* glsl */ `
   uniform float uTime;
   uniform float uMorph;
   uniform float uAudioMix;
-
+  uniform float uMobileWaveScale;
   uniform sampler2D uAudioTexture;
 
   uniform vec2 uPointer;
@@ -295,13 +295,14 @@ export const vertexShader = /* glsl */ `
 
     vec3 waveformPosition =
       aWavePos;
-
+    
 
     /*
     Main body wave remains on
     desktop and mobile.
     */
-
+   waveformPosition.x *= uMobileWaveScale;
+   
     float bodyWave =
       sin(
         aWaveU * 16.0 -
