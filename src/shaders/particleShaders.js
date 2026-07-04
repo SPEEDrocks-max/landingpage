@@ -11,6 +11,8 @@ export const vertexShader = /* glsl */ `
   uniform float uPixelRatio;
   uniform float uSize;
 
+  uniform float uIsMobile;
+
 
   attribute vec3 aTorusPos;
   attribute vec3 aExplodePos;
@@ -32,40 +34,64 @@ export const vertexShader = /* glsl */ `
     ========================================
     */
 
-    float spin = uTime * 0.12;
+    float spin =
+      uTime * 0.12;
 
-    mat2 rotationMatrix = mat2(
-      cos(spin), -sin(spin),
-      sin(spin),  cos(spin)
-    );
 
-    vec3 torusPosition = vec3(
-      rotationMatrix * aTorusPos.xy,
-      aTorusPos.z
-    );
+    float spinCos =
+      cos(spin);
+
+
+    float spinSin =
+      sin(spin);
+
+
+    mat2 rotationMatrix =
+      mat2(
+        spinCos,
+        -spinSin,
+        spinSin,
+        spinCos
+      );
+
+
+    vec3 torusPosition =
+      vec3(
+        rotationMatrix *
+          aTorusPos.xy,
+
+        aTorusPos.z
+      );
 
 
     /*
     ========================================
-    2. TORUS → PARTICLE CLOUD
+    2. TORUS → CLOUD
     ========================================
     */
 
-    float explosionProgress = smoothstep(
-      0.05,
-      0.90,
-      uMorph
-    );
+    float explosionProgress =
+      smoothstep(
+        0.05,
+        0.90,
+        uMorph
+      );
 
-    float burst = sin(
-      explosionProgress * 3.14159265
-    );
 
-    vec3 explosionDirection = normalize(
-      aExplodePos -
-      torusPosition +
-      vec3(0.001)
-    );
+    float burst =
+      sin(
+        explosionProgress *
+        3.14159265
+      );
+
+
+    vec3 explosionDirection =
+      normalize(
+        aExplodePos -
+        torusPosition +
+        vec3(0.001)
+      );
+
 
     vec3 burstOffset =
       explosionDirection *
@@ -77,27 +103,65 @@ export const vertexShader = /* glsl */ `
 
 
     /*
-      Gentle cloud motion.
+    ========================================
+    CLOUD DRIFT
+
+    Desktop:
+    original 3-axis organic movement
+
+    Mobile:
+    cheaper 1-wave movement
+    ========================================
     */
 
-    vec3 cloudDrift = vec3(
-      sin(
-        uTime * 0.35 +
-        aRandom * 40.0
-      ),
+    vec3 cloudDrift;
 
-      cos(
-        uTime * 0.28 +
-        aRandom * 55.0
-      ),
 
-      sin(
-        uTime * 0.22 +
-        aRandom * 70.0
-      )
-    )
-    * 0.12
-    * explosionProgress;
+    if (uIsMobile > 0.5) {
+
+      float mobileDrift =
+        sin(
+          uTime * 0.3 +
+          aRandom * 40.0
+        );
+
+
+      cloudDrift =
+        vec3(
+          mobileDrift,
+          mobileDrift * 0.65,
+          -mobileDrift * 0.4
+        )
+        *
+        0.10
+        *
+        explosionProgress;
+
+    } else {
+
+      cloudDrift =
+        vec3(
+          sin(
+            uTime * 0.35 +
+            aRandom * 40.0
+          ),
+
+          cos(
+            uTime * 0.28 +
+            aRandom * 55.0
+          ),
+
+          sin(
+            uTime * 0.22 +
+            aRandom * 70.0
+          )
+        )
+        *
+        0.12
+        *
+        explosionProgress;
+
+    }
 
 
     vec3 cloudPosition =
@@ -117,77 +181,115 @@ export const vertexShader = /* glsl */ `
 
     /*
     ========================================
-    3. SMOOTH AUDIO SAMPLING
+    3. AUDIO SAMPLING
+
+    Desktop: 5 samples
+    Mobile:  1 sample
     ========================================
-
-    Instead of reading one FFT sample,
-    average nearby samples.
-
-    This removes the jagged spectrum look.
     */
 
-    float sampleCenter = texture2D(
-      uAudioTexture,
-      vec2(aWaveU, 0.5)
-    ).r;
-
-    float sampleLeft1 = texture2D(
-      uAudioTexture,
-      vec2(
-        max(aWaveU - 0.012, 0.0),
-        0.5
-      )
-    ).r;
-
-    float sampleRight1 = texture2D(
-      uAudioTexture,
-      vec2(
-        min(aWaveU + 0.012, 1.0),
-        0.5
-      )
-    ).r;
-
-    float sampleLeft2 = texture2D(
-      uAudioTexture,
-      vec2(
-        max(aWaveU - 0.025, 0.0),
-        0.5
-      )
-    ).r;
-
-    float sampleRight2 = texture2D(
-      uAudioTexture,
-      vec2(
-        min(aWaveU + 0.025, 1.0),
-        0.5
-      )
-    ).r;
+    float smoothAudio;
 
 
-    float smoothAudio =
-      sampleCenter * 0.40 +
-      sampleLeft1 * 0.20 +
-      sampleRight1 * 0.20 +
-      sampleLeft2 * 0.10 +
-      sampleRight2 * 0.10;
+    if (uIsMobile > 0.5) {
+
+      smoothAudio =
+        texture2D(
+          uAudioTexture,
+          vec2(
+            aWaveU,
+            0.5
+          )
+        ).r;
+
+    } else {
+
+      float sampleCenter =
+        texture2D(
+          uAudioTexture,
+          vec2(
+            aWaveU,
+            0.5
+          )
+        ).r;
 
 
-    /*
-      Slight nonlinear boost.
+      float sampleLeft1 =
+        texture2D(
+          uAudioTexture,
+          vec2(
+            max(
+              aWaveU - 0.012,
+              0.0
+            ),
+            0.5
+          )
+        ).r;
 
-      Quiet sounds remain controlled,
-      louder sounds become expressive.
-    */
+
+      float sampleRight1 =
+        texture2D(
+          uAudioTexture,
+          vec2(
+            min(
+              aWaveU + 0.012,
+              1.0
+            ),
+            0.5
+          )
+        ).r;
+
+
+      float sampleLeft2 =
+        texture2D(
+          uAudioTexture,
+          vec2(
+            max(
+              aWaveU - 0.025,
+              0.0
+            ),
+            0.5
+          )
+        ).r;
+
+
+      float sampleRight2 =
+        texture2D(
+          uAudioTexture,
+          vec2(
+            min(
+              aWaveU + 0.025,
+              1.0
+            ),
+            0.5
+          )
+        ).r;
+
+
+      smoothAudio =
+        sampleCenter * 0.40 +
+        sampleLeft1 * 0.20 +
+        sampleRight1 * 0.20 +
+        sampleLeft2 * 0.10 +
+        sampleRight2 * 0.10;
+
+    }
+
 
     float energy =
-      pow(smoothAudio, 0.75);
+      pow(
+        smoothAudio,
+        0.75
+      );
 
-    vEnergy = energy;
+
+    vEnergy =
+      energy;
 
 
     /*
     ========================================
-    4. LIVING RIBBON WAVEFORM
+    4. WAVEFORM
     ========================================
     */
 
@@ -196,9 +298,8 @@ export const vertexShader = /* glsl */ `
 
 
     /*
-      Large slow body wave.
-
-      Gives the ribbon its overall shape.
+    Main body wave remains on
+    desktop and mobile.
     */
 
     float bodyWave =
@@ -212,39 +313,40 @@ export const vertexShader = /* glsl */ `
       1.15;
 
 
-    /*
-      Secondary wave moving in the
-      opposite direction.
+    float secondaryWave = 0.0;
 
-      This makes the form feel organic.
-    */
-
-    float secondaryWave =
-      sin(
-        aWaveU * 29.0 +
-        uTime * 2.3
-      )
-      *
-      energy
-      *
-      0.38;
+    float detailWave = 0.0;
 
 
     /*
-      Fine audio detail.
-
-      Subtle, not chaotic.
+    Extra waveform detail:
+    desktop only.
     */
 
-    float detailWave =
-      sin(
-        aWaveU * 52.0 -
-        uTime * 3.4
-      )
-      *
-      energy
-      *
-      0.14;
+    if (uIsMobile < 0.5) {
+
+      secondaryWave =
+        sin(
+          aWaveU * 29.0 +
+          uTime * 2.3
+        )
+        *
+        energy
+        *
+        0.38;
+
+
+      detailWave =
+        sin(
+          aWaveU * 52.0 -
+          uTime * 3.4
+        )
+        *
+        energy
+        *
+        0.14;
+
+    }
 
 
     waveformPosition.y +=
@@ -257,13 +359,10 @@ export const vertexShader = /* glsl */ `
     ========================================
     5. RIBBON THICKNESS
     ========================================
-
-    Particle randomness gives the wave
-    physical volume instead of a flat line.
     */
 
     float ribbonScatter =
-      (aRandom - 0.5);
+      aRandom - 0.5;
 
 
     waveformPosition.y +=
@@ -274,25 +373,39 @@ export const vertexShader = /* glsl */ `
       );
 
 
-    waveformPosition.z +=
-      sin(
-        aRandom * 50.0 +
-        uTime * 0.8
-      )
-      *
-      (
-        0.10 +
-        energy * 0.32
-      );
+    /*
+    Cheaper mobile depth motion.
+    */
+
+    if (uIsMobile > 0.5) {
+
+      waveformPosition.z +=
+        ribbonScatter *
+        (
+          0.14 +
+          energy * 0.24
+        );
+
+    } else {
+
+      waveformPosition.z +=
+        sin(
+          aRandom * 50.0 +
+          uTime * 0.8
+        )
+        *
+        (
+          0.10 +
+          energy * 0.32
+        );
+
+    }
 
 
     /*
     ========================================
-    6. BASS BREATHING
+    6. BASS
     ========================================
-
-    Bass expands the whole ribbon,
-    rather than simply moving it upward.
     */
 
     float bassPulse =
@@ -313,23 +426,28 @@ export const vertexShader = /* glsl */ `
 
 
     /*
-      Small vertical kick impact.
+    Vertical bass kick:
+    desktop only.
     */
 
-    waveformPosition.y +=
-      sin(
-        aWaveU * 9.0 +
-        uTime
-      )
-      *
-      bassPulse
-      *
-      0.65;
+    if (uIsMobile < 0.5) {
+
+      waveformPosition.y +=
+        sin(
+          aWaveU * 9.0 +
+          uTime
+        )
+        *
+        bassPulse
+        *
+        0.65;
+
+    }
 
 
     /*
     ========================================
-    7. CLOUD → RIBBON ASSEMBLY
+    7. CLOUD → RIBBON
     ========================================
     */
 
@@ -348,21 +466,50 @@ export const vertexShader = /* glsl */ `
       );
 
 
-    vec3 arcOffset = vec3(
-      sin(
-        aRandom * 30.0
-      ) * 0.35,
+    vec3 arcOffset;
 
-      cos(
-        aRandom * 45.0
-      ) * 0.45,
 
-      sin(
-        aRandom * 65.0
-      ) * 0.55
-    )
-    *
-    arc;
+    if (uIsMobile > 0.5) {
+
+      /*
+      Cheap deterministic arc.
+      */
+
+      float mobileArc =
+        sin(
+          aRandom * 30.0
+        );
+
+
+      arcOffset =
+        vec3(
+          mobileArc * 0.35,
+          -mobileArc * 0.45,
+          mobileArc * 0.55
+        )
+        *
+        arc;
+
+    } else {
+
+      arcOffset =
+        vec3(
+          sin(
+            aRandom * 30.0
+          ) * 0.35,
+
+          cos(
+            aRandom * 45.0
+          ) * 0.45,
+
+          sin(
+            aRandom * 65.0
+          ) * 0.55
+        )
+        *
+        arc;
+
+    }
 
 
     vec3 finalPosition =
@@ -377,46 +524,53 @@ export const vertexShader = /* glsl */ `
 
     /*
     ========================================
-    8. POINTER INTERACTION
+    8. POINTER
+
+    COMPLETELY SKIPPED ON MOBILE
     ========================================
     */
 
-    vec3 pointerPosition = vec3(
-      uPointer.x * 4.0,
-      uPointer.y * 2.2,
-      0.0
-    );
+    if (uIsMobile < 0.5) {
+
+      vec3 pointerPosition =
+        vec3(
+          uPointer.x * 4.0,
+          uPointer.y * 2.2,
+          0.0
+        );
 
 
-    float distanceToPointer =
-      distance(
-        finalPosition,
-        pointerPosition
-      );
+      float distanceToPointer =
+        distance(
+          finalPosition,
+          pointerPosition
+        );
 
 
-    float pointerInfluence =
-      1.0 -
-      smoothstep(
-        0.0,
-        1.7,
-        distanceToPointer
-      );
+      float pointerInfluence =
+        1.0 -
+        smoothstep(
+          0.0,
+          1.7,
+          distanceToPointer
+        );
 
 
-    vec3 pointerDirection =
-      normalize(
-        finalPosition -
-        pointerPosition +
-        vec3(0.001)
-      );
+      vec3 pointerDirection =
+        normalize(
+          finalPosition -
+          pointerPosition +
+          vec3(0.001)
+        );
 
 
-    finalPosition +=
-      pointerDirection *
-      pointerInfluence *
-      0.32 *
-      assemblyProgress;
+      finalPosition +=
+        pointerDirection *
+        pointerInfluence *
+        0.32 *
+        assemblyProgress;
+
+    }
 
 
     /*
@@ -438,13 +592,6 @@ export const vertexShader = /* glsl */ `
       mvPosition;
 
 
-    /*
-      Energetic particles become slightly
-      larger.
-
-      Bass gives global pulse.
-    */
-
     float particlePulse =
       1.0 +
       energy * 0.35 +
@@ -464,14 +611,11 @@ export const vertexShader = /* glsl */ `
       );
 
 
-    /*
-      Wave gets brighter with energy.
-    */
-
     vAlpha =
       mix(
         0.68,
-        0.88 + energy * 0.12,
+        0.88 +
+          energy * 0.12,
         assemblyProgress
       );
   }
@@ -494,6 +638,18 @@ export const fragmentShader = /* glsl */ `
       length(uv);
 
 
+    /*
+    Early discard outside particle circle.
+
+    Avoids unnecessary blending work
+    on transparent corners.
+    */
+
+    if (distanceFromCenter > 0.5) {
+      discard;
+    }
+
+
     float alpha =
       smoothstep(
         0.5,
@@ -504,18 +660,15 @@ export const fragmentShader = /* glsl */ `
       vAlpha;
 
 
-    /*
-      Slight energy brightness boost.
-      Still monochrome.
-    */
-
     float brightness =
       1.0 +
       vEnergy * 0.35;
 
 
     vec3 color =
-      vec3(brightness);
+      vec3(
+        brightness
+      );
 
 
     gl_FragColor =

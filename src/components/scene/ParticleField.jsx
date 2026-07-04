@@ -32,7 +32,6 @@ function generateTorusPoints(count) {
 
 
   for (let i = 0; i < count; i++) {
-
     const t =
       (i / count) *
       Math.PI *
@@ -48,9 +47,8 @@ function generateTorusPoints(count) {
 
     const r =
       radius +
-      Math.cos(
-        (q / p) * t
-      ) * 0.6
+      Math.cos((q / p) * t) *
+        0.6
 
 
     const x =
@@ -62,9 +60,8 @@ function generateTorusPoints(count) {
 
 
     const z =
-      Math.sin(
-        (q / p) * t
-      ) * 0.6
+      Math.sin((q / p) * t) *
+      0.6
 
 
     const nx =
@@ -103,18 +100,16 @@ function generateTorusPoints(count) {
 
 /*
 ========================================
-EXPLOSION CLOUD TARGET
+EXPLOSION CLOUD
 ========================================
 */
 
 function generateExplosionPoints(count) {
-
   const positions =
     new Float32Array(count * 3)
 
 
   for (let i = 0; i < count; i++) {
-
     const theta =
       Math.random() *
       Math.PI *
@@ -129,9 +124,8 @@ function generateExplosionPoints(count) {
 
     const radius =
       1.8 +
-      Math.sqrt(
-        Math.random()
-      ) * 3.2
+      Math.sqrt(Math.random()) *
+        3.2
 
 
     const x =
@@ -173,7 +167,6 @@ WAVEFORM TARGET
 */
 
 function generateWavePoints(count) {
-
   const positions =
     new Float32Array(count * 3)
 
@@ -186,7 +179,6 @@ function generateWavePoints(count) {
 
 
   for (let i = 0; i < count; i++) {
-
     const u =
       i / (count - 1)
 
@@ -236,17 +228,10 @@ PARTICLE FIELD
 export default function ParticleField({
   isMobile,
 }) {
-
   const groupRef = useRef()
 
   const materialRef = useRef()
 
-
-  /*
-  ========================================
-  ADAPTIVE PARTICLE COUNT
-  ========================================
-  */
 
   const particleCount =
     isMobile
@@ -264,8 +249,6 @@ export default function ParticleField({
     geometry,
     audioTexture,
   } = useMemo(() => {
-
-
     const torusPositions =
       generateTorusPoints(
         particleCount
@@ -298,10 +281,8 @@ export default function ParticleField({
       i < particleCount;
       i++
     ) {
-
       random[i] =
         Math.random()
-
     }
 
 
@@ -364,9 +345,7 @@ export default function ParticleField({
 
 
     /*
-    ========================================
     AUDIO TEXTURE
-    ========================================
     */
 
     const textureSize = 128
@@ -383,11 +362,9 @@ export default function ParticleField({
       i < textureSize;
       i++
     ) {
-
       textureData[
         i * 4 + 3
       ] = 255
-
     }
 
 
@@ -409,31 +386,17 @@ export default function ParticleField({
       audioTexture,
     }
 
-
   }, [particleCount])
 
 
   /*
   ========================================
-  CLEANUP GPU RESOURCES
-  ========================================
-  */
-
-  /*
-  Geometry is regenerated only if the
-  device tier changes.
-  */
-
-
-  /*
-  ========================================
-  STABLE UNIFORMS
+  UNIFORMS
   ========================================
   */
 
   const uniforms = useMemo(
     () => ({
-
       uTime: {
         value: 0,
       },
@@ -477,9 +440,21 @@ export default function ParticleField({
         value: 42,
       },
 
+
+      /*
+      0 = desktop
+      1 = mobile
+      */
+
+      uIsMobile: {
+        value: isMobile ? 1 : 0,
+      },
     }),
 
-    [audioTexture]
+    [
+      audioTexture,
+      isMobile,
+    ]
   )
 
 
@@ -490,7 +465,6 @@ export default function ParticleField({
   */
 
   useFrame((state) => {
-
     if (!materialRef.current) return
 
 
@@ -521,7 +495,6 @@ export default function ParticleField({
     */
 
     if (groupRef.current) {
-
       const torusInfluence =
         1 - scrollProgress
 
@@ -546,13 +519,12 @@ export default function ParticleField({
         ) *
         0.025 *
         torusInfluence
-
     }
 
 
     /*
     ========================================
-    UPDATE UNIFORMS
+    UNIFORM UPDATES
     ========================================
     */
 
@@ -565,22 +537,18 @@ export default function ParticleField({
 
 
     /*
-    ========================================
-    PRESERVE TORUS HOLD TIMING
-    ========================================
+    KEEP ORIGINAL TORUS HOLD
     */
 
     const TORUS_HOLD = 0.1
 
 
     const compressedProgress =
-
       scrollProgress < TORUS_HOLD
 
         ? 0
 
         : Math.min(
-
             (
               (
                 scrollProgress -
@@ -593,7 +561,6 @@ export default function ParticleField({
             ) * 1.2,
 
             1
-
           )
 
 
@@ -606,20 +573,10 @@ export default function ParticleField({
 
 
     /*
-    ========================================
-    POINTER INTERACTION
-    ========================================
-
-    Mobile:
-    no pointer store read
-    no Vector2 update
-
-    Desktop:
-    normal behaviour
+    DESKTOP POINTER ONLY
     */
 
     if (!isMobile) {
-
       const pointer =
         store.pointer
 
@@ -628,25 +585,10 @@ export default function ParticleField({
         pointer.x,
         pointer.y
       )
-
-    } else {
-
-      shaderUniforms.uPointer.value.set(
-        0,
-        0
-      )
-
     }
 
 
-    /*
-    ========================================
-    PIXEL RATIO
-    ========================================
-    */
-
     shaderUniforms.uPixelRatio.value =
-
       isMobile
 
         ? 1
@@ -667,7 +609,6 @@ export default function ParticleField({
 
 
     if (audioEngine) {
-
       const frequencyData =
         audioEngine.getFrequencyData()
 
@@ -686,20 +627,29 @@ export default function ParticleField({
         )
 
 
+      /*
+      Only process what fits inside
+      the 128 pixel audio texture.
+      */
+
+      const sampleCount =
+        Math.min(
+          frequencyData.length,
+          128
+        )
+
+
       for (
         let i = 0;
-        i < frequencyData.length;
+        i < sampleCount;
         i++
       ) {
-
         const value =
           frequencyData[i]
 
 
         if (i < bassBins) {
-
           bassTotal += value
-
         }
 
 
@@ -721,7 +671,6 @@ export default function ParticleField({
         textureData[
           i * 4 + 3
         ] = 255
-
       }
 
 
@@ -730,7 +679,6 @@ export default function ParticleField({
 
 
       beat =
-
         bassBins > 0
 
           ? bassTotal /
@@ -738,13 +686,11 @@ export default function ParticleField({
             255
 
           : 0
-
     }
 
 
     shaderUniforms.uBeat.value =
       beat
-
   })
 
 
@@ -755,13 +701,11 @@ export default function ParticleField({
   */
 
   return (
-
     <group ref={groupRef}>
 
       <points geometry={geometry}>
 
         <shaderMaterial
-
           ref={materialRef}
 
           vertexShader={
@@ -785,13 +729,11 @@ export default function ParticleField({
           blending={
             THREE.AdditiveBlending
           }
-
         />
 
       </points>
 
     </group>
-
   )
 }
 
