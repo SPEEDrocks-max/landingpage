@@ -127,7 +127,8 @@ export default function StudioLanding() {
         <div
           className="
             mb-10
-md:mb-12
+            md:mb-10
+            lg:mb-9
             rounded-full
             border
             border-white/15
@@ -145,15 +146,18 @@ md:mb-12
         </div>
 
 
-        <h1
+       <h1
   className="
     display-heading
 
     max-w-6xl
 
-    text-[clamp(4.5rem,9vw,10rem)]
+    text-[clamp(4.5rem,7vw,8rem)]
+
+    leading-[0.88]
+    tracking-[-0.055em]
   "
-> <RevealText delay={0.08}>
+><RevealText delay={0.08}>
   Generate the
   <br />
 
