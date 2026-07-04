@@ -1,4 +1,4 @@
-import{a as e,i as t,n,o as r,r as i,t as a}from"./index-CY6eq0l1.js";var o=r(e(),1),s=t();i.registerPlugin(n);function c({children:e,className:t=``,stagger:n=.14}){let r=(0,o.useRef)(null);return(0,o.useEffect)(()=>{let e=r.current;if(!e)return;let t=Array.from(e.children),a=i.context(()=>{i.fromTo(t,{y:70,opacity:0,scale:.96,filter:`blur(10px)`},{y:0,opacity:1,scale:1,filter:`blur(0px)`,duration:1.15,stagger:n,ease:`power4.out`,scrollTrigger:{trigger:e,start:`top 82%`,toggleActions:`play none none reverse`}})},e);return()=>a.revert()},[n]),(0,s.jsx)(`div`,{ref:r,className:t,children:e})}i.registerPlugin(n);function l(){let e=(0,o.useRef)(null),t=(0,o.useRef)(null),n=(0,o.useRef)(null),r=(0,o.useRef)(null);return(0,o.useEffect)(()=>{let a=e.current,o=t.current,s=n.current,c=i.context(()=>{i.fromTo(r.current,{y:120,opacity:0,filter:`blur(18px)`},{y:0,opacity:1,filter:`blur(0px)`,duration:1.4,ease:`power4.out`,scrollTrigger:{trigger:a,start:`top 75%`}}),i.to(o,{backgroundPositionX:`180px`,backgroundPositionY:`320px`,rotation:.6,scale:1.08,ease:`none`,scrollTrigger:{trigger:a,start:`top bottom`,end:`bottom top`,scrub:1.8}}),i.to(s,{yPercent:30,scale:1.2,ease:`none`,scrollTrigger:{trigger:a,start:`top bottom`,end:`bottom top`,scrub:2}})},a);function l(e){let t=e.clientX/window.innerWidth-.5,n=e.clientY/window.innerHeight-.5;i.to(o,{x:t*35,y:n*25,rotationX:n*-1.2,rotationY:t*1.2,duration:2.2,ease:`power3.out`,overwrite:`auto`}),i.to(s,{x:t*90,y:n*35,duration:3,ease:`power3.out`,overwrite:`auto`})}return window.addEventListener(`mousemove`,l),()=>{window.removeEventListener(`mousemove`,l),c.revert()}},[]),(0,s.jsxs)(`section`,{ref:e,className:`\r
+import{a as e,i as t,n,o as r,r as i,t as a}from"./index-isc-ITVK.js";var o=r(e(),1),s=t();i.registerPlugin(n);function c({children:e,className:t=``,stagger:n=.14}){let r=(0,o.useRef)(null);return(0,o.useEffect)(()=>{let e=r.current;if(!e)return;let t=Array.from(e.children),a=i.context(()=>{i.fromTo(t,{y:70,opacity:0,scale:.96,filter:`blur(10px)`},{y:0,opacity:1,scale:1,filter:`blur(0px)`,duration:1.15,stagger:n,ease:`power4.out`,scrollTrigger:{trigger:e,start:`top 82%`,toggleActions:`play none none reverse`}})},e);return()=>a.revert()},[n]),(0,s.jsx)(`div`,{ref:r,className:t,children:e})}i.registerPlugin(n);function l(){let e=(0,o.useRef)(null),t=(0,o.useRef)(null),n=(0,o.useRef)(null),r=(0,o.useRef)(null);return(0,o.useEffect)(()=>{let a=e.current,o=t.current,s=n.current,c=i.context(()=>{i.fromTo(r.current,{y:120,opacity:0,filter:`blur(18px)`},{y:0,opacity:1,filter:`blur(0px)`,duration:1.4,ease:`power4.out`,scrollTrigger:{trigger:a,start:`top 75%`}}),i.to(o,{backgroundPositionX:`180px`,backgroundPositionY:`320px`,rotation:.6,scale:1.08,ease:`none`,scrollTrigger:{trigger:a,start:`top bottom`,end:`bottom top`,scrub:1.8}}),i.to(s,{yPercent:30,scale:1.2,ease:`none`,scrollTrigger:{trigger:a,start:`top bottom`,end:`bottom top`,scrub:2}})},a);function l(e){let t=e.clientX/window.innerWidth-.5,n=e.clientY/window.innerHeight-.5;i.to(o,{x:t*35,y:n*25,rotationX:n*-1.2,rotationY:t*1.2,duration:2.2,ease:`power3.out`,overwrite:`auto`}),i.to(s,{x:t*90,y:n*35,duration:3,ease:`power3.out`,overwrite:`auto`})}return window.addEventListener(`mousemove`,l),()=>{window.removeEventListener(`mousemove`,l),c.revert()}},[]),(0,s.jsxs)(`section`,{ref:e,className:`\r
         relative\r
         z-40\r
         min-h-[130vh]\r
@@ -99,9 +99,23 @@ import{a as e,i as t,n,o as r,r as i,t as a}from"./index-CY6eq0l1.js";var o=r(e(
                   tracking-[0.35em]\r
                   text-white/45\r
                 `,children:`Engine Specifications`}),(0,s.jsxs)(`h2`,{ref:r,className:`\r
-                  display-heading\r
-                  text-[clamp(3rem,6vw,6.5rem)]\r
-                `,children:[(0,s.jsx)(a,{children:`Built for sound`}),(0,s.jsx)(a,{delay:.08,children:(0,s.jsx)(`span`,{className:`text-white/40`,children:`without compromise.`})})]})]}),(0,s.jsxs)(c,{className:`\r
+    display-heading\r
+\r
+    mt-5\r
+\r
+    text-[clamp(3rem,6vw,6.5rem)]\r
+\r
+    leading-[1.02]\r
+\r
+    tracking-[-0.055em]\r
+  `,children:[(0,s.jsx)(a,{children:(0,s.jsx)(`span`,{className:`block`,children:`Built for sound`})}),(0,s.jsx)(a,{delay:.08,children:(0,s.jsx)(`span`,{className:`\r
+        mt-2\r
+        block\r
+\r
+        text-white/40\r
+\r
+        md:mt-3\r
+      `,children:`without compromise.`})})]})]}),(0,s.jsxs)(c,{className:`\r
                 mt-20\r
                 grid\r
                 gap-4\r

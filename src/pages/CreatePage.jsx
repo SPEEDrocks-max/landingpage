@@ -300,22 +300,40 @@ export default function CreatePage() {
 
 
               <h2
-                ref={headingRef}
-                className="
-                  display-heading
-                  text-[clamp(3rem,6vw,6.5rem)]
-                "
-              >
-                <RevealText>
-                  Built for sound
-                </RevealText>
+  ref={headingRef}
+  className="
+    display-heading
 
-                <RevealText delay={0.08}>
-                  <span className="text-white/40">
-                    without compromise.
-                  </span>
-                </RevealText>
-              </h2>
+    mt-5
+
+    text-[clamp(3rem,6vw,6.5rem)]
+
+    leading-[1.02]
+
+    tracking-[-0.055em]
+  "
+>
+  <RevealText>
+    <span className="block">
+      Built for sound
+    </span>
+  </RevealText>
+
+  <RevealText delay={0.08}>
+    <span
+      className="
+        mt-2
+        block
+
+        text-white/40
+
+        md:mt-3
+      "
+    >
+      without compromise.
+    </span>
+  </RevealText>
+</h2>
 
             </div>
 

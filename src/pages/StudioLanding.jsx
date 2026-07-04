@@ -102,22 +102,32 @@ export default function StudioLanding() {
       {/* HERO */}
 
       <div
-        className="
-          relative
-          z-10
-          flex
-          min-h-[calc(100vh-90px)]
-          flex-col
-          items-center
-          justify-center
-          px-6
-          pb-20
-          text-center
-        "
-      >
+  className="
+    relative
+    z-10
+
+    flex
+    min-h-[calc(100vh-90px)]
+
+    flex-col
+    items-center
+    justify-center
+
+    px-6
+
+    pt-16
+    pb-20
+
+    text-center
+
+    md:pt-20
+    lg:pt-24
+  "
+>
         <div
           className="
-            mb-7
+            mb-10
+md:mb-12
             rounded-full
             border
             border-white/15

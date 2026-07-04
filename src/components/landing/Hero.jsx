@@ -695,42 +695,123 @@ const heroVisibility =
       ========================================
       */}
 
-      {scrollProgress < 0.65 && (
-        <div
-          className="
-            absolute
-            bottom-8
-            left-1/2
+      {/*
+========================================
+SCROLL PROMPT
+========================================
+*/}
 
-            flex
-            -translate-x-1/2
-            flex-col
-            items-center
-            gap-3
+{scrollProgress < 0.65 && (
+  <div
+    className="
+      absolute
+      bottom-6
+      left-1/2
 
-            font-mono
-            text-[8px]
-            uppercase
-            tracking-[0.3em]
-            text-white/25
-          "
-          style={{
-            opacity:
-              Math.min(
-                1,
-                (0.65 - scrollProgress) * 4
-              ),
-          }}
-        >
-          <span>
-            Scroll to dissolve
-          </span>
+      flex
+      -translate-x-1/2
+      flex-col
+      items-center
 
-          <div className="relative h-9 w-px overflow-hidden bg-white/10">
-            <div className="absolute left-0 top-0 h-1/2 w-full animate-pulse bg-white/50" />
-          </div>
-        </div>
-      )}
+      gap-4
+
+      md:bottom-9
+      md:gap-5
+    "
+    style={{
+      opacity:
+        Math.min(
+          1,
+          (0.65 - scrollProgress) * 4
+        ),
+    }}
+  >
+
+    {/* PROMPT PILL */}
+
+    <div
+      className="
+        rounded-full
+
+        border
+        border-white/25
+
+        bg-black/50
+
+        px-6
+        py-3
+
+        backdrop-blur-md
+
+        shadow-[0_8px_35px_rgba(255,255,255,0.07)]
+
+        md:px-7
+        md:py-3.5
+      "
+    >
+
+      <span
+        className="
+          whitespace-nowrap
+
+          font-mono
+
+          text-[11px]
+          font-medium
+          uppercase
+
+          tracking-[0.22em]
+
+          text-white/75
+
+          md:text-[12px]
+          md:tracking-[0.26em]
+          md:text-white/70
+        "
+      >
+        Scroll to dissolve
+      </span>
+
+    </div>
+
+
+    {/* SCROLL LINE */}
+
+    <div
+      className="
+        relative
+
+        h-12
+        w-[2px]
+
+        overflow-hidden
+        rounded-full
+
+        bg-white/20
+
+        md:h-14
+      "
+    >
+
+      <div
+        className="
+          absolute
+          left-0
+          top-0
+
+          h-1/2
+          w-full
+
+          animate-pulse
+
+          bg-white/75
+        "
+      />
+
+    </div>
+
+  </div>
+)}
     </section>
   )
 }
