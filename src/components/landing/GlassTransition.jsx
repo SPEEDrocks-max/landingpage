@@ -33,6 +33,7 @@ export default function GlassTransition() {
         opacity: 0,
         y: 50,
         filter: 'blur(14px)',
+        pointerEvents: 'none',
       })
 
       gsap.set(labelRef.current, {
@@ -182,6 +183,8 @@ export default function GlassTransition() {
 
           filter: 'blur(0px)',
 
+          pointerEvents: 'auto',
+
           duration: 1.4,
 
           ease: 'power3.out',
@@ -198,6 +201,7 @@ export default function GlassTransition() {
     <section
       ref={sectionRef}
       className="
+        pointer-events-none
         relative
         z-30
         h-screen

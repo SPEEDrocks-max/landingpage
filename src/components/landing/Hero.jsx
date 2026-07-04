@@ -227,7 +227,7 @@ const heroVisibility =
     pointer-events-none
     fixed
     inset-0
-    z-10
+    z-40
     overflow-hidden
     will-change-transform
   "

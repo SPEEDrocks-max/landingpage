@@ -1,4 +1,4 @@
-import{a as e,i as t,n,o as r,r as i}from"./index-Dyof4Vt5.js";var a=r(e(),1),o=t();i.registerPlugin(n);var s=[`SONICLABS`,`WAVEFORM`,`AUDIO.AI`,`SYNTHETICA`,`echo_`];function c(){let e=(0,a.useRef)(null),t=(0,a.useRef)(null);return(0,a.useEffect)(()=>{let n=i.context(()=>{i.fromTo(t.current,{opacity:0,y:30,filter:`blur(10px)`},{opacity:1,y:0,filter:`blur(0px)`,duration:1.2,ease:`power3.out`,scrollTrigger:{trigger:e.current,start:`top 85%`}})},e);return()=>n.revert()},[]),(0,o.jsxs)(`section`,{ref:e,className:`\r
+import{a as e,i as t,n,o as r,r as i}from"./index-C7QCzrKc.js";var a=r(e(),1),o=t();i.registerPlugin(n);var s=[`SONICLABS`,`WAVEFORM`,`AUDIO.AI`,`SYNTHETICA`,`echo_`];function c(){let e=(0,a.useRef)(null),t=(0,a.useRef)(null);return(0,a.useEffect)(()=>{let n=i.context(()=>{i.fromTo(t.current,{opacity:0,y:30,filter:`blur(10px)`},{opacity:1,y:0,filter:`blur(0px)`,duration:1.2,ease:`power3.out`,scrollTrigger:{trigger:e.current,start:`top 85%`}})},e);return()=>n.revert()},[]),(0,o.jsxs)(`section`,{ref:e,className:`\r
         relative\r
         z-40\r
 \r
