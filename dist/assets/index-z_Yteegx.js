@@ -5006,7 +5006,14 @@ return orthographicDepthToViewZ(depth,cameraNear,cameraFar);
           rounded-full\r
           bg-white/[0.035]\r
           blur-[140px]\r
-        `}),(0,Q.jsx)(`header`,{className:`relative z-20 px-6 pt-6 md:px-10 lg:px-16`,children:(0,Q.jsxs)(`nav`,{className:`\r
+        `}),(0,Q.jsx)(`header`,{className:`\r
+          relative\r
+          z-20\r
+          px-6\r
+          pt-6\r
+          md:px-10\r
+          lg:px-16\r
+        `,children:(0,Q.jsxs)(`nav`,{className:`\r
             mx-auto\r
             flex\r
             max-w-7xl\r
@@ -5047,31 +5054,18 @@ return orthographicDepthToViewZ(depth,cameraNear,cameraFar);
               duration-300\r
               hover:scale-105\r
             `,children:`LAUNCH STUDIO`})]})}),(0,Q.jsxs)(`div`,{className:`\r
-    relative\r
-    z-10\r
-\r
-    flex\r
-    min-h-[calc(100vh-90px)]\r
-\r
-    flex-col\r
-    items-center\r
-    justify-center\r
-\r
-    px-6\r
-\r
-    pt-16\r
-    pb-28\r
-    md:pb-24\r
-    lg:pb-16\r
-\r
-    text-center\r
-\r
-    md:pt-20\r
-    lg:pt-24\r
-  `,children:[(0,Q.jsx)(`div`,{className:`\r
-            mb-10\r
-            md:mb-10\r
-            lg:mb-9\r
+          relative\r
+          z-10\r
+          flex\r
+          min-h-[calc(100vh-90px)]\r
+          flex-col\r
+          items-center\r
+          justify-center\r
+          px-6\r
+          pb-20\r
+          text-center\r
+        `,children:[(0,Q.jsx)(`div`,{className:`\r
+            mb-7\r
             rounded-full\r
             border\r
             border-white/15\r
@@ -5084,16 +5078,11 @@ return orthographicDepthToViewZ(depth,cameraNear,cameraFar);
             tracking-[0.2em]\r
             text-white/60\r
           `,children:`♪ \xA0 Neural ACE-Step DIT V4 Engine`}),(0,Q.jsx)(`h1`,{className:`\r
-    display-heading\r
-\r
-    max-w-6xl\r
-\r
-    text-[clamp(4.5rem,7vw,8rem)]\r
-\r
-    leading-[0.88]\r
-    tracking-[-0.055em]\r
-  `,children:(0,Q.jsxs)(qD,{delay:.08,children:[`Generate the`,(0,Q.jsx)(`br`,{}),(0,Q.jsx)(`span`,{className:`text-white/50`,children:`Soundtrack`}),(0,Q.jsx)(`br`,{}),`of tomorrow`]})}),(0,Q.jsx)(`p`,{className:`\r
-            mt-8\r
+            display-heading\r
+            max-w-6xl\r
+            text-[clamp(4.5rem,9vw,10rem)]\r
+          `,children:(0,Q.jsxs)(qD,{delay:.08,children:[`Generate the`,(0,Q.jsx)(`br`,{}),(0,Q.jsx)(`span`,{className:`text-white/50`,children:`Soundtrack`}),(0,Q.jsx)(`br`,{}),`of tomorrow`]})}),(0,Q.jsx)(`p`,{className:`\r
+            mt-9\r
             max-w-2xl\r
             text-base\r
             leading-7\r
@@ -5357,7 +5346,7 @@ return orthographicDepthToViewZ(depth,cameraNear,cameraFar);
           bg-white\r
 \r
           md:block\r
-        `})]})}var $D=`modulepreload`,eO=function(e){return`/`+e},tO={},nO=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,new URL(`../../../src/node/plugins/importAnalysisBuild.ts`,import.meta.url)).href}r=o(t.map(t=>{if(t=eO(t,n),t=s(t),t in tO)return;tO[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:$D,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})},rO=(0,_.lazy)(()=>nO(()=>import(`./TrustStrip-BlHHrIN9.js`),[])),iO=(0,_.lazy)(()=>nO(()=>import(`./CreatePage-D0pzVtca.js`),[])),aO=(0,_.lazy)(()=>nO(()=>import(`./FinalSection-D9u7t4m7.js`),[]));function oO(){let e=ty(e=>e.setScrollProgress),t=ty(e=>e.setPointer),n=(0,_.useRef)(null),[r,i]=(0,_.useState)(!1);return(0,_.useEffect)(()=>{let e=window.matchMedia(`(pointer: fine)`);function t(){i(e.matches)}return t(),e.addEventListener(`change`,t),()=>{e.removeEventListener(`change`,t)}},[]),(0,_.useEffect)(()=>{let i=new N({duration:1.35,smoothWheel:!0,smoothTouch:!1,wheelMultiplier:.85,touchMultiplier:1});function a(){let t=window.innerHeight*2.2,n=Math.min(Math.max(window.scrollY/t,0),1);e(n)}function o(e){i.raf(e),a(),n.current=requestAnimationFrame(o)}n.current=requestAnimationFrame(o);function s(e){let n=e.clientX/window.innerWidth,r=e.clientY/window.innerHeight;t({x:n*2-1,y:-(r*2-1)})}return r&&window.addEventListener(`pointermove`,s,{passive:!0}),a(),()=>{r&&window.removeEventListener(`pointermove`,s),n.current&&cancelAnimationFrame(n.current),i.destroy()}},[t,e,r]),(0,Q.jsxs)(`main`,{className:`
+        `})]})}var $D=`modulepreload`,eO=function(e){return`/`+e},tO={},nO=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,new URL(`../../../src/node/plugins/importAnalysisBuild.ts`,import.meta.url)).href}r=o(t.map(t=>{if(t=eO(t,n),t=s(t),t in tO)return;tO[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:$D,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})},rO=(0,_.lazy)(()=>nO(()=>import(`./TrustStrip-BZ6CvfNc.js`),[])),iO=(0,_.lazy)(()=>nO(()=>import(`./CreatePage-_84UzkuV.js`),[])),aO=(0,_.lazy)(()=>nO(()=>import(`./FinalSection-57uN4mVj.js`),[]));function oO(){let e=ty(e=>e.setScrollProgress),t=ty(e=>e.setPointer),n=(0,_.useRef)(null),[r,i]=(0,_.useState)(!1);return(0,_.useEffect)(()=>{let e=window.matchMedia(`(pointer: fine)`);function t(){i(e.matches)}return t(),e.addEventListener(`change`,t),()=>{e.removeEventListener(`change`,t)}},[]),(0,_.useEffect)(()=>{let i=new N({duration:1.35,smoothWheel:!0,smoothTouch:!1,wheelMultiplier:.85,touchMultiplier:1});function a(){let t=window.innerHeight*2.2,n=Math.min(Math.max(window.scrollY/t,0),1);e(n)}function o(e){i.raf(e),a(),n.current=requestAnimationFrame(o)}n.current=requestAnimationFrame(o);function s(e){let n=e.clientX/window.innerWidth,r=e.clientY/window.innerHeight;t({x:n*2-1,y:-(r*2-1)})}return r&&window.addEventListener(`pointermove`,s,{passive:!0}),a(),()=>{r&&window.removeEventListener(`pointermove`,s),n.current&&cancelAnimationFrame(n.current),i.destroy()}},[t,e,r]),(0,Q.jsxs)(`main`,{className:`
         relative
         min-h-screen
         overflow-x-hidden

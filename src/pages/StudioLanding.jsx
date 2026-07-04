@@ -30,9 +30,19 @@ export default function StudioLanding() {
         "
       />
 
+
       {/* NAV */}
 
-      <header className="relative z-20 px-6 pt-6 md:px-10 lg:px-16">
+      <header
+        className="
+          relative
+          z-20
+          px-6
+          pt-6
+          md:px-10
+          lg:px-16
+        "
+      >
         <nav
           className="
             mx-auto
@@ -77,6 +87,7 @@ export default function StudioLanding() {
             </span>
           </div>
 
+
           <button
             className="
               rounded-full
@@ -102,35 +113,22 @@ export default function StudioLanding() {
       {/* HERO */}
 
       <div
-  className="
-    relative
-    z-10
-
-    flex
-    min-h-[calc(100vh-90px)]
-
-    flex-col
-    items-center
-    justify-center
-
-    px-6
-
-    pt-16
-    pb-28
-    md:pb-24
-    lg:pb-16
-
-    text-center
-
-    md:pt-20
-    lg:pt-24
-  "
->
+        className="
+          relative
+          z-10
+          flex
+          min-h-[calc(100vh-90px)]
+          flex-col
+          items-center
+          justify-center
+          px-6
+          pb-20
+          text-center
+        "
+      >
         <div
           className="
-            mb-10
-            md:mb-10
-            lg:mb-9
+            mb-7
             rounded-full
             border
             border-white/15
@@ -148,36 +146,32 @@ export default function StudioLanding() {
         </div>
 
 
-       <h1
-  className="
-    display-heading
+        <h1
+          className="
+            display-heading
+            max-w-6xl
+            text-[clamp(4.5rem,9vw,10rem)]
+          "
+        >
+          <RevealText delay={0.08}>
+            Generate the
 
-    max-w-6xl
+            <br />
 
-    text-[clamp(4.5rem,7vw,8rem)]
+            <span className="text-white/50">
+              Soundtrack
+            </span>
 
-    leading-[0.88]
-    tracking-[-0.055em]
-  "
-><RevealText delay={0.08}>
-  Generate the
-  <br />
+            <br />
 
-  <span className="text-white/50">
-    Soundtrack
-  </span>
-
-  <br />
-
-  of tomorrow
-  </RevealText>
-</h1>
-
+            of tomorrow
+          </RevealText>
+        </h1>
 
 
         <p
           className="
-            mt-8
+            mt-9
             max-w-2xl
             text-base
             leading-7
@@ -207,6 +201,7 @@ export default function StudioLanding() {
             Start Creating Free &nbsp; →
           </button>
 
+
           <button
             className="
               rounded-full
@@ -227,5 +222,5 @@ export default function StudioLanding() {
         </div>
       </div>
     </section>
-  )
+  );
 }
