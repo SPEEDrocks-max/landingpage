@@ -126,25 +126,7 @@ export default function StudioLanding() {
           text-center
         "
       >
-        <div
-          className="
-            mb-7
-            rounded-full
-            border
-            border-white/15
-            bg-white/[0.05]
-            px-4
-            py-2
-            font-mono
-            text-[9px]
-            uppercase
-            tracking-[0.2em]
-            text-white/60
-          "
-        >
-          ♪ &nbsp; Neural ACE-Step DIT V4 Engine
-        </div>
-
+        
 
         <h1
           className="
